@@ -5,11 +5,12 @@ namespace App\Livewire;
 use App\Models\User;
 use App\Models\Message;
 use Livewire\Component;
+use Livewire\Attributes\On;
 use App\Events\MessageEvent;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Locked;
-use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Computed;
+use Illuminate\Support\Facades\Auth;
 
 class Chat extends Component
 {
@@ -21,6 +22,9 @@ class Chat extends Component
     public $selectedUserName = '';
 
     public $selectedUserEmail = '';
+
+    #[Locked]
+    public $deleteConvoId;
 
     /**
      * Send a message to the selected user.
@@ -36,7 +40,7 @@ class Chat extends Component
             'receiver_id' => $this->selectedUser,
             'message' => $this->message
         ]);
-       
+
         $this->reset(['message']);
         broadcast(new MessageEvent($message));
     }
@@ -54,12 +58,13 @@ class Chat extends Component
         $this->selectedUserEmail = $user->email;
     }
 
+
     /**
      * Clear the selected user from the chat.
      * Resets the selected user ID, name, and email to null/empty.
      */
     public function clearSelectedUser()
-    {   
+    {
         $this->reset(['selectedUser', 'selectedUserName', 'selectedUserEmail']);
     }
 
@@ -95,13 +100,17 @@ class Chat extends Component
             ->get();
     }
 
+
+
     /**
      * Refresh the messages by triggering a new query for the selected user.
      * Clears the cached message list to fetch the latest messages.
      */
+
+
     public function refreshMessages()
     {
-       unset($this->getMessages);
+        unset($this->getMessages);
     }
 
     /**
