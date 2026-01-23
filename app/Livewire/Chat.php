@@ -43,7 +43,7 @@ class Chat extends Component
         ]);
 
         $this->reset(['message']);
-        broadcast(new MessageEvent($message));
+        //broadcast(new MessageEvent($message));
     }
 
     /**
