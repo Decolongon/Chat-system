@@ -2,8 +2,9 @@
 
 namespace App\Livewire;
 
-use App\Models\User;
+
 use App\Models\Message;
+use App\Models\User;
 use Livewire\Component;
 use Livewire\Attributes\On;
 use App\Events\MessageEvent;
@@ -90,7 +91,7 @@ class Chat extends Component
      *
      * @return \Illuminate\Database\Eloquent\Collection Messages ordered by creation date
      */
-    #[Computed()]
+    #[Computed]
     public function getMessages()
     {
         return Message::query()
