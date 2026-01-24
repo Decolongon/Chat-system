@@ -16,9 +16,16 @@ class Message extends Model
         'sender_id',
         'receiver_id',
         'message',
+        'sender_deleted_at',
+        'receiver_deleted_at',
+        'deleted_for_everyone_at',
     ];
 
-
+    protected $casts = [
+        'sender_deleted_at' => 'datetime',
+        'receiver_deleted_at' => 'datetime',
+        'deleted_for_everyone_at' => 'timestamp',
+    ];
     public function sender(): BelongsTo
     {
         return $this->belongsTo(User::class, 'sender_id');
@@ -38,16 +45,20 @@ class Message extends Model
     }
 
     #[Scope]
-    protected function messageReceiver(Builder $query, $receiverId)
+    protected function messageAsSender(Builder $query, $receiverId)
     {
-        return $query->where('receiver_id', $receiverId)
-                ->where('sender_id', Auth::user()->id);
+        return $query->where('sender_id', Auth::id())
+            ->where('receiver_id', $receiverId)
+            ->whereNull('sender_deleted_at');
     }
 
     #[Scope]
-    protected function messageSender(Builder $query, $senderId)
+    protected function orMessageAsReceiver(Builder $query, $senderId)
     {
-        return $query->orWhere('sender_id', $senderId)
-                ->where('receiver_id', Auth::user()->id);
+        return $query->orWhere(function ($q) use ($senderId) {
+            $q->where('sender_id', $senderId)
+                ->where('receiver_id', Auth::id())
+                ->whereNull('receiver_deleted_at');
+        });
     }
 }

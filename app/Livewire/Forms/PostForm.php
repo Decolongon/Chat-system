@@ -12,11 +12,8 @@ class PostForm extends Form
 {
 
     public ?Post $post;
-
     public $title;
-
     public $body;
-
 
     public function setPost(Post $post)
     {
@@ -34,7 +31,7 @@ class PostForm extends Form
                 'max:255',
                 Rule::unique('posts')->where('author_id', Auth::user()->id),
             ],
-            
+
             'body' => [
                 'required',
                 'min:3',

@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\User;
 use Illuminate\Support\Facades\Broadcast;
 
 Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
@@ -13,4 +14,12 @@ Broadcast::channel('posts.{userId}', function ($user, $userId) {
 
 Broadcast::channel('messages.{userId}', function ($user, $userId) {
     return (int) $user->id === (int) $userId;
+});
+
+Broadcast::channel('delete-for-me', function (User $user) {
+    return $user !== null;
+});
+
+Broadcast::channel('delete-for-every-one', function (User $user) {
+    return $user !== null;
 });
