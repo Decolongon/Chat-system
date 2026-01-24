@@ -109,11 +109,11 @@ class Chat extends Component
      * Refresh the messages by triggering a new query for the selected user.
      * Clears the cached message list to fetch the latest messages.
      */
-   #[On('echo-private:delete-for-me,MessageDeleteForMe')]
+    #[On('echo-private:delete-for-me,MessageDeleteForMe')]
     public function deleteForMe(): void
     {
         unset($this->getMessages);
-        $this->js('$wire.$refresh()');
+
     }
 
 
@@ -121,7 +121,7 @@ class Chat extends Component
     public function deleteForEveryone(): void
    {
         unset($this->getMessages);
-       $this->js('$wire.$refresh()');
+
     }
     public function refreshMessages($event): void
     {

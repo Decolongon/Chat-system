@@ -14,7 +14,6 @@ use Livewire\Attributes\Reactive;
 class MessageItem extends Component
 {
     #[Reactive]
-    #[Locked]
     public Message $msg;
 
     public function deleteForMe(Message $message): void
@@ -29,6 +28,7 @@ class MessageItem extends Component
         //dd($updateData);
         $message->update($updateData);
 
+
         broadcast(new MessageDeleteForMe($message->fresh()));
 
     }
@@ -40,6 +40,8 @@ class MessageItem extends Component
         $message->update([
             'deleted_for_everyone_at' => now(),
         ]);
+
+
 
         broadcast(new MessageDeleteForEveryone($message->fresh()));
 
