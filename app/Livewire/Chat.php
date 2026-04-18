@@ -19,10 +19,11 @@ class Chat extends Component
     #[Locked]
     public $selectedUser;
 
+    #[Locked]
     public $message = '';
-
+    #[Locked]
     public $selectedUserName = '';
-
+    #[Locked]
     public $selectedUserEmail = '';
 
     #[Locked]
@@ -35,7 +36,7 @@ class Chat extends Component
      */
     public function sendMessage()
     {
-        if (empty($this->message)){
+        if (empty($this->message)) {
             return;
         }
 
@@ -57,7 +58,7 @@ class Chat extends Component
      *
      * @param User $user The user to select for chatting
      */
-    public function selectUser(User $user):void
+    public function selectUser(User $user): void
     {
         $this->selectedUser = $user->id;
         $this->selectedUserName = $user->name;
@@ -69,7 +70,7 @@ class Chat extends Component
      * Clear the selected user from the chat.
      * Resets the selected user ID, name, and email to null/empty.
      */
-    public function clearSelectedUser():void
+    public function clearSelectedUser(): void
     {
         $this->reset(['selectedUser', 'selectedUserName', 'selectedUserEmail']);
     }
@@ -113,15 +114,13 @@ class Chat extends Component
     public function deleteForMe(): void
     {
         unset($this->getMessages);
-
     }
 
 
-   #[On('echo-private:delete-for-every-one,MessageDeleteForEveryone')]
+    #[On('echo-private:delete-for-every-one,MessageDeleteForEveryone')]
     public function deleteForEveryone(): void
-   {
+    {
         unset($this->getMessages);
-
     }
     public function refreshMessages($event): void
     {
