@@ -15,7 +15,6 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 class MessageDeleteForEveryone implements ShouldBroadcastNow
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
-
     /**
      * Create a new event instance.
      */
